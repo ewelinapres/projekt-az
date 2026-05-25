@@ -1,3 +1,5 @@
+import contextlib
+
 # ---------------- Funkcje pomocnicze --------------------
 def dodaj(A, B):
     n = len(A)
@@ -99,7 +101,7 @@ def znajdz_X(A):
 
 def wyswietl_macierz(A, naglowek="Macierz:"):
     n = len(A)
-    print(f"\n{naglowek}")
+    print(f"{naglowek}")
     # Naglowek kolumn
     print("     " + "  ".join(f"Z{j+1:>2}" for j in range(n)))
     print("     " + "----" * n)
@@ -156,7 +158,7 @@ def main():
             if wybor == "p":
                 name = input("Podaj nazwę pliku .txt z danymi wejściowymi: ")
                 folder = input("Czy plik pochodzi z folderu dane_testowe? t/n (tak/nie)")
-                if folder == "t":
+                if folder in ["t", "tak"]:
                     name = "dane_testowe" + "/" + name
                 if not name.endswith(".txt"):
                     name += ".txt"
@@ -169,7 +171,7 @@ def main():
             if wybor == "r":
                 A = wczytaj_macierz()
                 n = len(A)
-
+            print()
             wyswietl_macierz(A, "Wprowadzona macierz zwycięstw:")
 
             print("\nObliczanie...")
@@ -184,13 +186,26 @@ def main():
                 print("Żaden zawodnik nie spełnia własności X.")
             print("=" * 55)
 
+            # Zapis do pliku
+            out = input("Czy chcesz zapisać wynik do pliku? t/n (tak/nie): ")
+            if out in ["t", "tak"]:
+                name_out = input("Podaj nazwę pliku, w którym chcesz zapisać wynik: ")
+                if not name_out.endswith(".txt"):
+                    name_out += ".txt"
+                with open(f"wyniki/{name_out}", "w", encoding = "utf-8") as f:
+                    with contextlib.redirect_stdout(f):
+                        wyswietl_macierz(A, "Wprowadzona macierz zwycięstw:")
+                    f.write("\n" + "=" * 55 + "\n")
+                    f.write(f"Zawodnicy z własnością X: {zawodnicy_str}\n")
+                    f.write(f"Indeksy: {wynik}")
+
         except KeyboardInterrupt:
             print("\n\nPrzerwano przez użytkownika.")
         except Exception as e:
             print(f"\nBŁĄD: {e}")
 
         exit = input("\nCzy chcesz zamknąć program? t/n (tak/nie)")
-        if exit == "t":
+        if exit in ["t", "tak"]:
             break
         print("=" * 55, "\n")
 
