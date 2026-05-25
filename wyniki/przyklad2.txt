@@ -1,0 +1,11 @@
+Wprowadzona macierz zwycięstw:
+     Z 1  Z 2  Z 3  Z 4
+     ----------------
+Z 1 | 1   1   1   0
+Z 2 | 0   1   0   1
+Z 3 | 0   1   1   0
+Z 4 | 1   0   1   1
+
+=======================================================
+Zawodnicy z własnością X: Z1, Z2, Z4
+Indeksy: [1, 2, 4]
